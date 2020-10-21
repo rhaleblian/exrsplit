@@ -1,9 +1,9 @@
 from __future__ import print_function
 import copy
-import exrsplit
-import OpenEXR
 import os
 import sys
+import OpenEXR
+import exrsplit
 
 
 def _parse_args():
@@ -21,7 +21,8 @@ def _parse_args():
                         'First view is treated as the default view.')
     parser.add_argument('image', nargs='+', help='Input images (if merging, the header data is taken' +
                         'from first argument and last argument is used as output)')
-    return parser.parse_args()
+    result = parser.parse_args()
+    return result
 
 
 def _open_inputfile(filename):
@@ -113,6 +114,9 @@ def merge_exr(args):
 
 def split_exr(args):
     for inputfile in args.image:
+
+        write_default_layer(args)
+
         exr = _open_inputfile(inputfile)
         try:
             header = exr.header()
@@ -147,6 +151,37 @@ def split_exr(args):
                 output = OpenEXR.OutputFile(target_file, out_header)
                 output.writePixels(channel_data)
                 output.close()
+        finally:
+            exr.close()
+
+
+def write_default_layer(args):
+    """
+    (#5986) Save out the default_layer with its alpha, so it can be used for
+    masking purposes in a Photoshop Blank file product build.
+    """
+    for inputfile in args.image:
+        try:
+            exr = _open_inputfile(inputfile)
+            header = exr.header()
+            channels = [exrsplit.EXRChannel(header, layer) for layer in
+                        header['channels']]
+            grouped_channels = exrsplit.group_channels(channels)
+            for layer in grouped_channels:
+                if ('{}'.format(exrsplit.output_file_name(layer[0]))) == \
+                        "default_layer":
+                    target_file = '{}.exr'.format(
+                        exrsplit.output_file_name(layer[0]))
+                    break
+            out_header = _create_output_header(header)
+            channel_data = {}
+            for channel in layer:
+                out_header['channels'][channel.channel] = \
+                    header['channels'][channel.fullname]
+                channel_data[channel.channel] = exr.channel(channel.fullname)
+            output = OpenEXR.OutputFile(target_file, out_header)
+            output.writePixels(channel_data)
+            output.close()
         finally:
             exr.close()
 
