@@ -21,8 +21,7 @@ def _parse_args():
                         'First view is treated as the default view.')
     parser.add_argument('image', nargs='+', help='Input images (if merging, the header data is taken' +
                         'from first argument and last argument is used as output)')
-    result = parser.parse_args()
-    return result
+    return parser.parse_args()
 
 
 def _open_inputfile(filename):
