@@ -1,51 +1,36 @@
 """Based on: https://github.com/pypa/sampleproject."""
 
-from __future__ import absolute_import
-from setuptools import find_packages, setup
-from os import path
+import os
+import setuptools
 
-# Get the long description from the README file
-with open(path.join(path.abspath(path.dirname(__file__)), 'README.rst')) as f:
-    long_description = f.read()
+
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
 
 tests_require = ['flake8', 'mock', 'pytest', 'pytest-flake8', 'pytest-cov']
-setup(
-    name='exrsplit',
 
-    # Versions should comply with PEP440.  For a discussion on single-sourcing
-    # the version across setup.py and the project code, see
-    # https://packaging.python.org/en/latest/single_source_version.html
+def package_files(directory):
+    paths = []
+    for (path, _, filenames) in os.walk(directory):
+        if 'doc' in path or 'www' in path:
+            continue
+        for filename in filenames:
+            paths.append(os.path.join('..', path, filename))
+    return paths
+
+setuptools.setup(
+    name="thr3d-exrsplit",
     version='0.0.1',
-
-    description='Split/merge multi-layer exr images',
+    author="sgsco|THR3D",
+    author_email="support@thr3dcgi.com",
+    description="Split/merge multi-layer exr images tool for the THR3D CGI pipeline.",
     long_description=long_description,
-
+    long_description_content_type="text/markdown",
     url='https://github.com/tiagoshibata/exrsplit',
-
-    author='Tiago Koji Castro Shibata',
-    author_email='tiago.shibata@gmail.org',
-
-    license='MIT',
-
-    classifiers=[
-        'Development Status :: 4 - Beta',
-
-        'Intended Audience :: Developers',
-        'Topic :: Multimedia :: Graphics',
-
-        'License :: OSI Approved :: MIT License',
-
-        'Programming Language :: Python :: 2.7',
-    ],
-
-    keywords='openexr multilayer',
-
-    packages=find_packages(),
-
-    # For an analysis of "install_requires" vs pip's requirements files see:
-    # https://packaging.python.org/en/latest/requirements.html
+    packages=setuptools.find_packages(),
+    python_requires='>=3.9',
     install_requires=['OpenEXR'],
-
     # List additional groups of dependencies here (e.g. development
     # dependencies). You can install these using the following syntax,
     # for example:
