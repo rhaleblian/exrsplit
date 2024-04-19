@@ -1,9 +1,10 @@
 from __future__ import print_function
+from __future__ import absolute_import
 import copy
 import os
 import sys
 import OpenEXR
-import exrsplit
+from . import exrsplit
 
 
 def _parse_args():

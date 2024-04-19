@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 import exrsplit.__main__ as exrsplit_main
 from mock import ANY, call, patch, MagicMock
 import pytest

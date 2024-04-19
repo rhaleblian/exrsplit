@@ -1,5 +1,6 @@
 """Based on: https://github.com/pypa/sampleproject."""
 
+from __future__ import absolute_import
 from setuptools import find_packages, setup
 from os import path
 

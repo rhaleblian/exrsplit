@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 from cmdargs import CmdArgs
 import exrsplit.__main__ as exrsplit_main
 import os

@@ -1,10 +1,12 @@
+from __future__ import absolute_import
 import collections
 import exrsplit.exrsplit as exrsplit
 import pytest
 import sys
+from six.moves import zip_longest
 
 if sys.version_info < (3, 0):
-    from itertools import izip_longest as zip_longest
+    
 else:
     from itertools import zip_longest
 

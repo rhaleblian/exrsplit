@@ -42,6 +42,8 @@
 # shadows, mask, RY, GY, BY, U, V
 # Non-identified channels are saved as grayscale.
 
+from __future__ import absolute_import
+from __future__ import print_function
 import collections
 import itertools
 
@@ -86,7 +88,7 @@ def _get_channel_type(channel):
     name = channel.lower()
     layer_type = _NAME_TO_CHANNEL_TYPE.get(name)
     if layer_type is None:
-        print('Unknown channel name {} set as data'.format(channel))
+        print(('Unknown channel name {} set as data'.format(channel)))
         return 'DATA'
     return layer_type
 
