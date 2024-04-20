@@ -3,12 +3,8 @@
 import os
 import setuptools
 
-
-with open("README.md", "r") as fh:
-    long_description = fh.read()
-
-
 tests_require = ['flake8', 'mock', 'pytest', 'pytest-flake8', 'pytest-cov']
+
 
 def package_files(directory):
     paths = []
@@ -19,13 +15,13 @@ def package_files(directory):
             paths.append(os.path.join('..', path, filename))
     return paths
 
+
 setuptools.setup(
     name="thr3d-exrsplit",
     version='0.0.1',
     author="sgsco|THR3D",
     author_email="support@thr3dcgi.com",
-    description="Split/merge multi-layer exr images tool for the THR3D CGI pipeline.",
-    long_description=long_description,
+    description="Split/merge multi-layer exr images.",
     long_description_content_type="text/markdown",
     url='https://github.com/tiagoshibata/exrsplit',
     packages=setuptools.find_packages(),
